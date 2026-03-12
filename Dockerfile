@@ -1,24 +1,17 @@
-# Use .NET SDK image to build the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copy project files
+COPY ["AnnapurnaEnterprises.Api.csproj", "./"]
+RUN dotnet restore "AnnapurnaEnterprises.Api.csproj"
+
 COPY . .
+RUN dotnet publish "AnnapurnaEnterprises.Api.csproj" -c Release -o /app/publish
 
-# Restore dependencies
-RUN dotnet restore
-
-# Publish the app
-RUN dotnet publish -c Release -o out
-
-# Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=build /app/publish .
 
-# Expose port
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
-# Run the app
 ENTRYPOINT ["dotnet", "AnnapurnaEnterprises.Api.dll"]
