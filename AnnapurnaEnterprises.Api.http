@@ -1,0 +1,6 @@
+@AnnapurnaEnterprises.Api_HostAddress = http://localhost:5239
+
+GET {{AnnapurnaEnterprises.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
