@@ -61,14 +61,16 @@ builder.Services.AddSwaggerGen(c =>
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+        policy
+            .WithOrigins("https://guileless-genie-60215d.netlify.app")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
+
+
 
 // Repositories + Services
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -76,6 +78,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPreviousWorkRepository, PreviousWorkRepository>();
 builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
 builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
+
+var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
