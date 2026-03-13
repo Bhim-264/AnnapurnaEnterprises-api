@@ -20,7 +20,7 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -70,19 +70,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
-// Repositories + Services
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IPreviousWorkRepository, PreviousWorkRepository>();
-builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
-builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
-
-var app = builder.Build();
-
-app.UseCors("AllowFrontend");
-
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -102,6 +89,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// Repositories + Services
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IPreviousWorkRepository, PreviousWorkRepository>();
+builder.Services.AddScoped<IAdminUserRepository, AdminUserRepository>();
+builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
+
 var app = builder.Build();
 
 // Seed admin + migrate
@@ -119,7 +113,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAngular");
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
