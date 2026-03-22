@@ -1,6 +1,7 @@
 using AnnapurnaEnterprises.Api.Data;
 using AnnapurnaEnterprises.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,16 +9,21 @@ namespace AnnapurnaEnterprises.Api.Seed
 {
     public static class DbSeeder
     {
-        public static async Task SeedAsync(AppDbContext db)
+        public static async Task SeedAsync(AppDbContext db, IConfiguration config)
         {
             // ✅ Apply migrations automatically
             await db.Database.MigrateAsync();
 
-            // ✅ Seed default admin
-            const string username = "satya2026";
-            const string password = "Satya@2025";
+            // ✅ Read from Environment Variables
+            var username = config["AdminSettings:Username"];
+            var password = config["AdminSettings:Password"];
 
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                throw new Exception("❌ Admin credentials not found in environment variables.");
+
+            // ✅ Check if admin exists
             var exists = await db.AdminUsers.AnyAsync(x => x.Username == username);
+
             if (!exists)
             {
                 db.AdminUsers.Add(new AdminUser

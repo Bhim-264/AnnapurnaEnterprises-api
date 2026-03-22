@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AnnapurnaEnterprises.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f52e7fdf1fedf8a007aa8f25ba7ed1bd44aca9d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e24c924f550970db79b7be04bd780be3a86ce5ce")]
 [assembly: System.Reflection.AssemblyProductAttribute("AnnapurnaEnterprises.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AnnapurnaEnterprises.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
